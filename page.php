@@ -37,7 +37,6 @@ get_header(); ?>
 <?php load_game('whoami','padding: 2px') ?>
 <?php load_game('reflex','padding: 2px') ?>
 -->
-babo
 
 <?php function load_game($game, $style){
 	echo '<a href="'.$game.'"><img class="game-thumbnail" style="'.$style.'" src= "http://localhost:81/wordpress/wp-content/uploads/thumbnail_games/'.$game.'.png"></img></a>';

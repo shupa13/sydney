@@ -36,6 +36,7 @@ get_header(); ?>
 <?php load_game('fastfind','padding: 2px') ?>
 <?php load_game('whoami','padding: 2px') ?>
 <?php load_game('reflex','padding: 2px') ?>
+아무말 대잔치!!
 -->
 
 <?php function load_game($game, $style){

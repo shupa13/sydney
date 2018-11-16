@@ -96,11 +96,15 @@
 		        <?php if ( get_theme_mod('site_logo') ) : ?>
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php bloginfo('name'); ?>"><img class="site-logo" src="<?php echo esc_url(get_theme_mod('site_logo')); ?>" alt="<?php bloginfo('name'); ?>" /></a>
 		        <?php else : ?>
-					<div></div>
+					<div style="margin: auto">
+						<nav id="mainnav" class="subnav" role="navigation">
+							<?php wp_nav_menu( array( 'theme_location' => 'primary', 'fallback_cb' => 'sydney_menu_fallback' ) ); ?>
+						</nav><!-- #site-navigation -->
+					</div>
 					<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-					<div style="margin: 10px; margin-bottom: 20px; text-align: right">
+					<div style="margin: 10px; text-align: right">
 							<a href= "https://www.instagram.com/_football_dor/?hl=ko">
-								<img src = "http://localhost:81/wordpress/wp-content/uploads/icon/instagram_black.png" style="max-width : 20%; margin-right: 5px">
+								<img src = "http://localhost:81/wordpress/wp-content/uploads/icon/instagram_black.png" style="max-width : 15%; margin-right: 5px">
 							</a>
 							<!-- 이메일
 							<a href = "mailto:bigear.news@example.com">

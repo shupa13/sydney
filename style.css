@@ -30,13 +30,14 @@ Social
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Progress bar ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 #myProgress {
-    width: 100%;
-    background-color: grey;
+    width: 70%;
+    background-color: black;
+    margin: auto;
 }
 #myBar {
     width: 1%;
     height: 30px;
-    background-color: green;
+    background-color: yellow;
 }
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ SNS SHARE ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 .the_champ_sharing_container.the_champ_horizontal_sharing{
@@ -1156,11 +1157,35 @@ th,td {
 /*--------------------------------------------------------------
 Header
 --------------------------------------------------------------*/
+
+.site-header > div > div > div > div > div > #mainnav > div > ul > li{
+  padding: 0 5px;
+  display: none;
+}
+.site-header.float-header > div > div > div > div > div > #mainnav > div > ul > li{
+  padding: 0 5px;
+  display: inline;
+}
+.site-header.float-header > div > div > div > div > div > #mainnav > div > ul > li > a{
+  font-size: 12px;
+}
+.site-header.float-header > div > div > div > div{
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.site-header > div > div > div > div > h1{
+  font-size: 45px;
+}
+.site-header.float-header > div > div > div > div > h1{
+  font-size: 25px;
+}
+.site-header.float-header > div > div > div > div > div:nth-child(3) > a > img{
+  width: 15%;
+}
 	.site-title {
 		line-height: 1.2;
-    font-size: 30px !important;
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin: auto;
     text-align: center;
 	}
 
@@ -1168,7 +1193,6 @@ Header
 	.site-title a:hover {
 		color: #000000;
     font-weight: bold;
-    font-size: 45px;
     font-family: "Lato", sans-serif;
 	}
   .site-title a:hover{
@@ -1249,7 +1273,7 @@ Header
 
 	.site-header.float-header {
 		background-color: white;
-		padding: 10px;
+		padding: 5px;
 	}
 	.site-header.float-header #mainnav {
 		padding: 0;

@@ -381,6 +381,7 @@ function whoameye_result(color){
     <div id="myProgress">
       <div id="myBar"></div>
     </div>
+    <h5 style="text-align:center">Wait for seconds .... </h5>
     <form method = "POST" action = "http://localhost:81/wordpress/whoami_process" id="myscore">
       <input type = "hidden" name = "score" value =`+whoameye_score*whoameye_final+`>
     </form>
@@ -396,12 +397,15 @@ function progress_move(){
     var elem = document.getElementById("myBar");
     var width = 1;
     var id = setInterval(frame, 10);
+    var per;
     function frame() {
         if (width >= 100) {
             clearInterval(id);
         } else {
             width++;
-            elem.style.width = width + '%';
+            per = width+'%';
+            $('#myBar').css('width',per);
+//            elem.style.width = width + '%';
         }
     }
 }

@@ -21,7 +21,7 @@ get_header(); ?>
     'rank' => ' '
   );
   $sql = 'insert into reflex_result(name, nation, record) values("'.$filtered['user'].'", "'.$filtered['nation'].'", "'.$filtered['record'].'")';
-  //$result = mysqli_query($conn, $sql);
+  $result = mysqli_query($conn, $sql);
  ?>
    <?php
    $sql = '

@@ -78,14 +78,61 @@
    var form =
    `
     <form action = "http://localhost:81/wordpress/`+game+`_process" method = "POST">
-      <input style = "margin-bottom: 4px" type = "text" name = "user" placeholder = "input name">
-      <input style = "margin-bottom: 4px" type = "text" name = "nation" placeholder = "input country">
+      <input style = "margin-bottom: 5px" type = "text" name = "user" placeholder = "input name">
+      <input style = "margin-bottom: 10px" type = "text" name = "nation" placeholder = "input country">
       <input type = "hidden" name = "record" value =`+record+`>
       <input type = "hidden" name = "team" value =`+selected_team[0]+`>
     <input type = "submit" value = "Submit my record">
    </form>`
    return form;
  }
+
+ // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Log in 로그인 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+ var checkLoginStatus = function(response){
+   console.log(response);
+   // statusChangeCallback(response);
+   if(response.status == 'connected'){
+     //document.querySelector('#authBtn').value = 'Logout';
+     $('#authBtn').val('Logout');
+     FB.api('/me', function(resp){
+       $('.myname').html(resp.name);
+     });
+   }else {
+     //document.querySelector('#authBtn').value = 'Login';
+     $('#authBtn').val('Login');
+     $('.myname').html("");
+   }
+ }
+
+function facebook_log(status){
+  if(status.value == 'Login'){
+    FB.login(function(res){
+      console.log('login =>', res)
+      checkLoginStatus(res);
+    });
+
+
+  //  $('#authBtn').val('Logout');
+
+  }else{
+    FB.logout(function(res){
+      console.log('logout =>', res)
+      checkLoginStatus(res);
+    });
+//    $('#authBtn').val('Login');
+  }
+}
+
+function instagram_log(){
+
+  var insta_set = {
+    "clientID" : "dbfdc2aae60d47a083abb536c80fb10f",
+    "clientSecret" : "5defbb18dd1d4e86a3a2221bba8109c1",
+    "redirectURI" : "http://localhost:81/wordpress/"
+  };
+  location.href = "https://api.instagram.com/oauth/authorize/?client_id="+insta_set['clientID']+"&redirect_uri="+insta_set['redirectURI']+"&response_type=code";
+}
 
 
  // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ REFLEX 리플렉스 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -329,34 +376,34 @@ function whoameye_result(color){
        whoameye_start();
      }, 500);
   }else {
-    $('.game-box').css('backgroundColor', '#efefef');
-//    document.querySelector('.game-box').style.backgroundColor = '#efefef';
-    var center_msg = '<h3>MY SCORE : <font color = "red"; size = 40px>'+whoameye_score*whoameye_final+'</font></h3><h6>'+whoameye_msg();+'</h6>';
-    $('.whoami-item').html(" ");
-    $('.whoami-item.center').html(center_msg);
+    $('.game-box').css('backgroundColor', '#00000000');
+    var msg=`
+    <div id="myProgress">
+      <div id="myBar"></div>
+    </div>
+    <form method = "POST" action = "http://localhost:81/wordpress/whoami_process" id="myscore">
+      <input type = "hidden" name = "score" value =`+whoameye_score*whoameye_final+`>
+    </form>
+    `
+    progress_move();
 
+    $('.game-box').html(msg);
+    $('.stage').css('display', 'none');
+    $("#myscore").submit();
   }
-  function whoameye_msg(){
-    var msg;
-    switch(whoameye_score){
-      case 0 :
-        msg = 'You need to love football more';
-        break;
-      case 1 : case 2 : case 3 : case 4 :
-        msg = 'Don\'t worry you could be professional fan of football';
-        break;
-      case 5 : case 6 : case 7 :
-        msg = 'You absolutely love football and your knowledge of football is high enough';
-        break;
-      case 8 : case 9 :
-        msg = 'Are you working about football ? I think you are Expert of football';
-        break;
-      case 10 :
-        msg = 'I\'m sure you are Pep Guardiola or Jurgen Klopp you have eagle eye';
-        break;
+}
+function progress_move(){
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+        if (width >= 100) {
+            clearInterval(id);
+        } else {
+            width++;
+            elem.style.width = width + '%';
+        }
     }
-    return msg;
-  }
 }
 
 // ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ FAST FIND 패스트파인드  ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -375,15 +422,16 @@ const set_time_fastfind = 20;
 // 팀선택
 
 function team_select(res){
-  selected_team = JSON.parse(res.value);
-  $('.btn_start').css('display', 'inline');
+//  selected_team = JSON.parse(res.value);
 //  document.querySelector('.btn_start').style.display = 'inline';
-  thumbnail_change();
+//  game_start();
+  var target = '.fastfind_start.'+res;
+  document.querySelector(target).click(); // Click on the checkbox
 }
 
-function thumbnail_change(){
-  $('.img_inner').attr('src',src_fastfind+selected_team[0]+'/'+selected_team[0]+".jpg");
-//  document.querySelector(".img_inner").src = src_fastfind+selected_team[0]+'/'+selected_team[0]+".jpg";
+function team_setting(res){
+  selected_team = JSON.parse(res.value);
+  game_start();
 }
 
 // 패스트파인드 시작
@@ -402,7 +450,7 @@ function game_start(){
   }
   var ans_position = Math.floor(Math.random()*grid_size*grid_size);
 
-  var make_game = '<h1 class = "target_name" style= "text-align: center"></h1><div class = "game-container fastfind">';
+  var make_game = '<h2 class = "target_name" style= "text-align: center"></h2><div class = "game-container fastfind">';
 
   while(i<grid_size*grid_size){
     if(i == ans_position){
@@ -414,7 +462,7 @@ function game_start(){
     }
     i++;
   }
-  make_game = make_game + '</div>';
+  make_game = make_game + '</div><h5 class = "stage_showing" style="text-align: right; margin: 20px"></h5>';
 
   //document.querySelector('.game-box.fastfind').innerHTML=make_game;
   $('.game-box.fastfind').html(make_game);
@@ -486,15 +534,16 @@ function fastfind_finish(){
 
   var msg =
       '<img class = "img_cell" src = "http://localhost:81/wordpress/wp-content/uploads/inner_thumbnail/fastfind_result.png">'+
-      '<div style = "padding: 0 20px"><h4>My result : <font color ="red">'+fastfind_stage+'</font></h4><h6>'+showing_msg+'</h6>'+record_form('fastfind', fastfind_stage);
+      '<div style = "margin : 20px; border-top : 2px solid; padding-top: 10px"><h3>MY RESULT : <font color ="red">'
+      +fastfind_stage+'</font></h3><h6>'
+      +showing_msg+'</h6>'
+      +record_form('fastfind', fastfind_stage);
 
   $('.target_name').css('display','none');
   $('.stage_showing').css('display','none');
-  $('.game-container.fastfind').html(msg);
-  $('.game-container.fastfind').css({
-    'display'     : 'grid',
-    'grid-template-columns' : '1fr 1fr',
-    'max-width' : '100%'
+  $('.game-box.fastfind').html(msg);
+  $('.game-box.fastfind').css({
+    'max-width' : '450px'
   });
 //  document.querySelector('.game-container.fastfind').style = "display:inline-grid; align-items:center";
 //  document.querySelector('.game-container.fastfind').innerHTML='<h3>My record : </h3>'+stage-2;
@@ -603,6 +652,7 @@ var hero_tal = {
   'Dribble' : 1
 };
 var selected_talent = [];
+var talent_list = [];
 
 var hero_code;
 var hero_progress;
@@ -641,6 +691,7 @@ function get_hero_src(tal){
 }
 
 function add_talent(res){
+  talent_list.push(res);
   hero_code = hero_code + hero_tal[res];
   hero_progress++;
   myhero_set();
@@ -653,6 +704,7 @@ function get_talent_group(list){
   }
   msg = msg + '</div>'+
     `<form method = "POST" action = "http://localhost:81/wordpress/myhero_process">
+      <input class = "sending_tal" name = "talent" type = "hidden">
       <input class = "mycode" name = "code" type = "hidden">
       <input style = "margin: 10px" type = "submit" value = "submit">
     </form>
@@ -686,7 +738,9 @@ function add_talent_group(res,talent){
       alert('Only 3 talent !')
     }
   }
+
   $('.mycode').val(hero_code);
+  $('.sending_tal').val(talent_list.concat(selected_talent));
 }
 
 function remove_hero(item){

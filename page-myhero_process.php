@@ -15,17 +15,29 @@ get_header(); ?>
 
 <?php
   $code = $_POST['code'];
+  $talent = explode(',', $_POST['talent']);
+
   $sql = 'select * from myhero where code = '.$code;
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
   ?>
 
-  <div class="game-box">
-    <div class="game-container normal">
+  <div class="game-box" style="max-width: 750px; margin: auto">
+    <div class="game-container hero-result">
       <img class = "img_cell" src="http://localhost:81/wordpress/wp-content/uploads/myhero/player/<?= $row['name'] ?>.png">
       <div>
-        <h3>My hero</h3>
-        <h5><?= $row['name'] ?></h5>
+        <h4><?= $row['name'] ?></h4>
+        <?php
+          for($i=0; $i<count($talent); $i++){
+            echo '
+            <div style="margin : 10px">
+              <img width = "5%" src="http://localhost:81/wordpress/wp-content/uploads/icon/check.png">
+              <h5 style="display : inline; margin-left : 5px">'.$talent[$i].'</h5>
+            </div>
+            ';
+          }
+         ?>
+         <?php echo do_shortcode('[TheChamp-Sharing url="https://www.naver.com" style=""]') ?>
       </div>
     </div>
   </div>

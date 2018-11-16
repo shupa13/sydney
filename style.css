@@ -27,8 +27,23 @@ Social
   padding-bottom: 20px
 }
 
+/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ Progress bar ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
+#myProgress {
+    width: 100%;
+    background-color: grey;
+}
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+}
+/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ SNS SHARE ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+.the_champ_sharing_container.the_champ_horizontal_sharing{
+  margin-top: 30px;
+}
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ HOME PAGE ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
 
 .nav_menu{
   padding: 20px;
@@ -201,6 +216,10 @@ input[type=radio]:checked ~ label{
   padding: 20px 50px;
 }
 
+.game-container.hero-result{
+  grid-template-columns: 2fr 3fr;
+}
+
 .game-container.myhero{
   margin: 0 auto;
   display: inline;
@@ -348,17 +367,22 @@ ul.reflex_container li:last-of-type{
 
 /* 패스트 파인드 */
 
+.fastfind_start{
+  display: none;
+}
+
 .game-box.fastfind{
-  background-color: #00000000;
-  border-radius: 0;
-  padding: 0;
+  background-color: #efefef;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
 }
 .img-cell.reflex{
   width: 100%;
 }
 .game-container.option{
   margin: 0 auto;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 1fr;
 }
 
   .game-item.select{
@@ -1270,7 +1294,7 @@ Header
 	#mainnav ul li a {
 		position: relative;
 		display: block;
-		font-size: 14px;
+		font-size: 16px;
 		font-family: "Rato", sans-serif;
 		color: #fff;
 		font-weight: bold;

@@ -22,12 +22,20 @@ get_header(); ?>
 </div>
 -->
 
+<!-- 페이스북 로그인 버튼, 인스타그램 로그인 버튼 커스텀
+<input type="button" id="authBtn" value="checking..." onclick="facebook_log(this)">
+<input onclick="instagram_log();" type="button" value="insta" >
+-->
+
 <article class = "home_category">
 	<div class="home-container">
 		<div class="home-item" ><?php load_game('doppy', 'width: 100%') ?></div>
 		<div class="home-item" ><?php load_game('myhero', 'width: 100%') ?></div>
 		<div class="home-item" ><?php load_game('whoami', 'width: 100%') ?></div>
 		<div class="home-item" ><?php load_game('fastfind', 'width: 100%') ?></div>
+		<div class="home-item" ><?php load_game('threetop', 'width: 100%') ?></div>
+		<div class="home-item" ><?php load_game('style', 'width: 100%') ?></div>
+		<div class="home-item" ><?php load_game('reflex', 'width: 100%') ?></div>
 </article>
 
 <!--
@@ -36,7 +44,6 @@ get_header(); ?>
 <?php load_game('fastfind','padding: 2px') ?>
 <?php load_game('whoami','padding: 2px') ?>
 <?php load_game('reflex','padding: 2px') ?>
-아무말 대잔치 삭제
 -->
 
 <?php function load_game($game, $style){

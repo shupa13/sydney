@@ -15,45 +15,36 @@ get_header(); ?>
 
 <article class = "game-box fastfind">
   <div class="game-container option">
-    <div class="game-item select">
-      <ul class="select_list">
-          <?
+        <?
+        $sql = "
+          SELECT * FROM fastfind_select";
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_array($result)){
+          $name = $row['team_list'];
+
           $sql = "
-            SELECT * FROM fastfind_select";
-          $result = mysqli_query($conn, $sql);
-          while($row = mysqli_fetch_array($result)){
-            $name = $row['team_list'];
-
-            $sql = "
-              SELECT * FROM fastfind_".$name;
-              $result_d = mysqli_query($conn, $sql);
-              $arr = array();
-              array_push($arr,$name);
-              while($row_d = mysqli_fetch_array($result_d)){
-                array_push($arr,$row_d['name']);
-              }
-            ?>
-            <li>
-              <input type="radio" id=<?= $name; ?> value=<?= json_encode($arr); ?> name="selector" onclick="team_select(this);">
-              <label for=<?= $name; ?>><span><?= $name; ?></span></label>
-            </li>
-            <?php
-          }
-         ?>
-      </ul>
-    </div>
-
-    <div class="game-item monitor">
-        <img class = "img_inner" src = "http://localhost:81/wordpress/wp-content/uploads/inner_thumbnail/fastfind.png"></img>
-          <p style="margin: auto"><input style="display: none" class = "btn_start" type="button" value="start" onclick="game_start();"></p>
-        <!--  <input type="button" value="stop" onclick="stop();"> -->
-        <!--  <input type="button" value="reset" onclick="reset()"> -->
-    </div>
+            SELECT * FROM fastfind_".$name;
+            $result_d = mysqli_query($conn, $sql);
+            $arr = array();
+            array_push($arr,$name);
+            while($row_d = mysqli_fetch_array($result_d)){
+              array_push($arr,$row_d['name']);
+            }
+          ?>
+            <img class = "img_cell" src = <?= get_src($name); ?> onclick="team_select('<?= $name ?>')">
+            <button  class = "fastfind_start <?= $name ?>" type="button" value=<?= json_encode($arr); ?>  onclick="team_setting(this);"></button>
+          <?php
+        }
+       ?>
   </div>
 </article>
-<h5 class = "stage_showing" style="text-align: right"></h5>
 
+<?php
+  function get_src($name){
+    $src = "http://localhost:81/wordpress/wp-content/uploads/fastfind/team/".$name.".png";
+    return $src;
+  }
 
-
+ ?>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
